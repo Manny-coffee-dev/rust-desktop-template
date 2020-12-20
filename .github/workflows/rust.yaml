@@ -2,9 +2,9 @@ name: Rust
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: '*'
   pull_request:
-    branches: [ main, dev ]
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -18,9 +18,34 @@ jobs:
       run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Test
       run: cargo test --verbose
+  
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/cargo@v1
+      with:
+          command: fmt
+          args: '--all -- --check'
+    - uses: actions-rs/cargo@v1
+      with:
+          command: clippy
+          args: '-- -D warnings'
+  
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install rustup
+      run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Check
+      run: cargo check --verbose
 
   build-linux:
-    needs: test
+    needs: 
+      - test
+      - lint
+      - check
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +55,10 @@ jobs:
       run: cargo build --verbose --release
     
   build-macos:
-    needs: test
+    needs: 
+      - test
+      - lint
+      - check
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
@@ -39,7 +67,10 @@ jobs:
       run: cargo build --release --all-features
   
   build-windows:
-    needs: test
+    needs: 
+      - test
+      - lint
+      - check
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
