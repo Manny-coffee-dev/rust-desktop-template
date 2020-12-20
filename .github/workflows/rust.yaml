@@ -34,15 +34,15 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build
     - uses: actions-rs/cargo@v1
-    - run: cargo build --release --all-features
+    - name: Build
+      run: cargo build --release --all-features
   
   build-windows:
     needs: test
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build
     - uses: actions-rs/cargo@v1
-    - run: cargo build --release --all-features
+    - name: Build
+      run: cargo build --release --all-features
