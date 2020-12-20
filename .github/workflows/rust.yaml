@@ -93,5 +93,5 @@ jobs:
     - name: Publish Binary
       uses: actions/upload-artifact@v2
       with:
-        name: ${{env.project-name}}-x86_64-pc-windows.exe
+        name: ${{env.project-name}}-x86_64-pc-windows
         path: ./target/release/${{env.project-name}}.exe
