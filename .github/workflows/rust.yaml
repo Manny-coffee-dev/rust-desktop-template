@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  project-name: 'project-name'
 
 jobs:
   test:
@@ -55,8 +56,11 @@ jobs:
     - uses: actions-rs/cargo@v1
     - name: Build
       run: cargo build --release --all-features
-    - name: Show directory
-      run: ls ./target/release
+    - name: Publish Binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.project-name}}
+        path: ./target/release/${{env.project-name}}
     
   build-macos:
     needs: 
@@ -69,8 +73,11 @@ jobs:
     - uses: actions-rs/cargo@v1
     - name: Build
       run: cargo build --release --all-features
-    - name: Show directory
-      run: ls ./target/release
+    - name: Publish Binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.project-name}}
+        path: ./target/release/${{env.project-name}}
   
   build-windows:
     needs: 
@@ -83,5 +90,8 @@ jobs:
     - uses: actions-rs/cargo@v1
     - name: Build
       run: cargo build --release --all-features
-    - name: Show directory
-      run: ls ./target/release
+    - name: Publish Binary
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.project-name}}.exe
+        path: ./target/release/${{env.project-name}}.exe
