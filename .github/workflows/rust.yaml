@@ -27,3 +27,16 @@ jobs:
       run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Build
       run: cargo build --verbose --release
+    
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install rustup
+      run: brew install rustup
+    - name: Install cargo
+      run: rustup-init
+    - name: Check install
+      run: rustc --version
+    - name: Build
+      run: cargo build --verbose --release
