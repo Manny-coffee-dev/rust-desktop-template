@@ -59,7 +59,7 @@ jobs:
     - name: Publish Binary
       uses: actions/upload-artifact@v2
       with:
-        name: ${{env.project-name}}
+        name: ${{env.project-name}}-x86_64-unknown-linux-gnu
         path: ./target/release/${{env.project-name}}
     
   build-macos:
@@ -76,7 +76,7 @@ jobs:
     - name: Publish Binary
       uses: actions/upload-artifact@v2
       with:
-        name: ${{env.project-name}}
+        name: ${{env.project-name}}-x86_64-apple-darwin
         path: ./target/release/${{env.project-name}}
   
   build-windows:
@@ -94,4 +94,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{env.project-name}}.exe
-        path: ./target/release/${{env.project-name}}.exe
+        path: ./target/release/${{env.project-name}}-x86_64-pc-windows.exe
