@@ -20,6 +20,7 @@ jobs:
       run: cargo test --verbose
 
   build-linux:
+    needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -29,14 +30,19 @@ jobs:
       run: cargo build --verbose --release
     
   build-macos:
+    needs: test
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install rustup
-      run: brew install rustup
-    - name: Install cargo
-      run: rustup-init
-    - name: Check install
-      run: rustc --version
     - name: Build
-      run: cargo build --verbose --release
+    - uses: actions-rs/cargo@v1
+    - run: cargo build --release --all-features
+  
+  build-windows:
+    needs: test
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+    - uses: actions-rs/cargo@v1
+    - run: cargo build --release --all-features
